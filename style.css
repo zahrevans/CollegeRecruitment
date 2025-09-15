@@ -1,0 +1,19 @@
+
+  body {
+      margin: 0;
+      height: 100vh;
+      background: skyblue;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #fly {
+      position: absolute;
+      width: 200px; /* bigger image */
+      height: auto;
+      top: 50%;
+      left: -220px; /* start further offscreen since it's bigger */
+      transform: translateY(-50%);
+    }
