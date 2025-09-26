@@ -106,7 +106,6 @@ body {
   z-index: 0;
 }
 
-
 .hero .content {
   position: relative;
   z-index: 2; /* ensures text stays sharp above blur */
@@ -120,4 +119,24 @@ body {
 .hero .content p {
   font-size: 1.25rem;
   margin-bottom: 1.5rem;
+}
+
+
+.leader-image-container {
+  height: 120px; 
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.leader-image-container img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain; 
+  display: block;
 }

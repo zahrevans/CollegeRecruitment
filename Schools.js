@@ -8,7 +8,7 @@ const asuSchools = [
       "Earth & Space Sciences (Geological / Environmental Sciences, Astronomy)",
       "Interdisciplinary & Transdisciplinary Studies"
     ],
-    image: ""
+    image: "1.png"
   },
   {
     name: "Ira A. Fulton Schools of Engineering",
@@ -22,7 +22,7 @@ const asuSchools = [
       "Robotics",
       "Sustainable Engineering"
     ],
-    image: ""
+    image: "2.png"
   },
   {
     name: "W. P. Carey School of Business",
@@ -36,7 +36,7 @@ const asuSchools = [
       "Entrepreneurship",
       "Business Analytics"
     ],
-    image: ""
+    image: "3.png"
   },
   {
     name: "Herberger Institute for Design and the Arts",
@@ -49,7 +49,7 @@ const asuSchools = [
       "Dance",
       "Arts & Media Engineering"
     ],
-    image: ""
+    image: "4.png"
   },
   {
     name: "Edson College of Nursing and Health Innovation",
@@ -60,7 +60,7 @@ const asuSchools = [
       "Health Technology",
       "Evidence-based Care"
     ],
-    image: ""
+    image: "5.png"
   },
   {
     name: "College of Health Solutions",
@@ -72,7 +72,7 @@ const asuSchools = [
       "Diagnostics & Therapeutics",
       "Behavioral Health"
     ],
-    image: ""
+    image: "6.png"
   },
   {
     name: "Walter Cronkite School of Journalism and Mass Communication",
@@ -84,7 +84,7 @@ const asuSchools = [
       "Investigative Journalism",
       "Strategic Communications"
     ],
-    image: ""
+    image: "7.png"
   },
   {
     name: "Thunderbird School of Global Management",
@@ -95,7 +95,7 @@ const asuSchools = [
       "Global Leadership",
       "Cross-Cultural Management"
     ],
-    image: ""
+    image: "8.png"
   },
   {
     name: "Mary Lou Fulton Teachers College",
@@ -106,7 +106,7 @@ const asuSchools = [
       "Educational Leadership",
       "Learning Sciences"
     ],
-    image: ""
+    image: "9.png"
   },
   {
     name: "Sandra Day O’Connor College of Law",
@@ -117,7 +117,7 @@ const asuSchools = [
       "Legal Practice & Skills",
       "Public Policy & Justice"
     ],
-    image: ""
+    image: "10.png"
   },
   {
     name: "Watts College of Public Service and Community Solutions",
@@ -128,7 +128,7 @@ const asuSchools = [
       "Urban Planning / Community Development",
       "Non-profit Leadership"
     ],
-    image: ""
+    image: "11.png"
   },
   {
     name: "New College of Interdisciplinary Arts and Sciences",
@@ -139,7 +139,7 @@ const asuSchools = [
       "Cross-disciplinary Programs",
       "Smaller campus environments"
     ],
-    image: ""
+    image: "12.png"
   },
   {
     name: "University College",
@@ -150,7 +150,7 @@ const asuSchools = [
       "Support for undecided majors",
       "Foundational math / writing / science courses"
     ],
-    image: ""
+    image: "13.png"
   },
   {
     name: "College of Global Futures",
@@ -161,7 +161,7 @@ const asuSchools = [
       "Global Challenges & Futures Studies",
       "Systems Innovation"
     ],
-    image: ""
+    image: "14.png"
   }
 ];
 
@@ -171,31 +171,34 @@ function render(list) {
   grid.innerHTML = '';
   list.forEach((s, index) => {
     const col = document.createElement('div');
-    col.className = 'col-6 col-md-4 col-lg-3';
+    col.className = 'col-6 col-md-4 col-lg-3 d-flex'; // flex wrapper for equal heights
 
     // ID derived from last word of name
     let id = s.name.split(" ");
     id = id[id.length - 1].replace(/[^a-zA-Z0-9\-]/g, '');
 
-    // Inline styles for card: white background, black text, no border-radius, subtle shadow
+    // Card styles: consistent size, white background, black text, shadow
     const cardStyle = [
-      "background: #ffffff",         // white background
-      "color: #000000",              // black text
-      "border-radius: 0",            // no rounded corners
-      "box-shadow: 0 6px 14px rgba(0,0,0,0.12)", // subtle black drop shadow
-      "overflow: hidden"
+      "background: #ffffff",
+      "color: #000000",
+      "border-radius: 0",
+      "box-shadow: 0 6px 14px rgba(0,0,0,0.12)"
     ].join("; ");
 
-    // Image wrapper height kept; image hidden if missing (onerror)
     col.innerHTML = `
-      <div class="card border-0" id="${id}" style="${cardStyle}">
-        <div class="leader-image-container p-2 d-flex justify-content-center align-items-center" style="height:120px;">
-          <img src="${s.image ? s.image : ''}" class="mx-auto d-block" alt="${s.name} image" onerror="this.style.display='none'">
+      <div class="card border-0 h-100 d-flex flex-column justify-content-between" id="${id}" style="${cardStyle}">
+        <div>
+          <div class="leader-image-container p-2 d-flex justify-content-center align-items-center" style="height:120px;">
+            <img src="${s.image ? s.image : ''}" class="mx-auto d-block" alt="${s.name} image" onerror="this.style.display='none'">
+          </div>
+          <div class="card-body text-center pb-3" style="padding-top:0.5rem;padding-bottom:1rem;">
+            <h5 class="card-title mb-1 fw-bold" style="color:#000000;">${s.name}</h5>
+           
+          </div>
         </div>
-        <div class="card-body text-center pb-3" style="padding-top:0.5rem;padding-bottom:1rem;">
-          <h5 class="card-title mb-1 fw-bold" style="color:#000000;">${s.name}</h5>
-          <p class="small mb-2" style="color:#333333;">College / School</p>
-          <button class="btn btn-sm btn-dark show-info-btn px-3" style="background:#000;color:#fff;border:none;" data-school-index="${index}" data-bs-toggle="modal" data-bs-target="#schoolModal">
+        <div class="pb-3 text-center">
+          <button class="btn btn-sm btn-dark show-info-btn px-3" style="background:#000;color:#fff;border:none;" 
+            data-school-index="${index}" data-bs-toggle="modal" data-bs-target="#schoolModal">
             Fields of study
           </button>
         </div>
@@ -208,7 +211,7 @@ function render(list) {
 // Initial render
 render(asuSchools);
 
-// Modal logic: populate content when modal is shown (Bootstrap modal event)
+// Modal logic: populate content when modal is shown
 const schoolModalEl = document.getElementById('schoolModal');
 schoolModalEl.addEventListener('show.bs.modal', function (event) {
   const button = event.relatedTarget;
@@ -216,36 +219,40 @@ schoolModalEl.addEventListener('show.bs.modal', function (event) {
   const school = asuSchools[index];
 
   // Title
-  document.getElementById('schoolModalLabel').textContent = school.name;
+  const modalTitle = document.getElementById('schoolModalLabel');
+  modalTitle.textContent = school.name;
+  modalTitle.style.color = "#000000"; // black title
 
   // Subjects list
   const subjectsNode = document.getElementById('modalSubjects');
   subjectsNode.innerHTML = '';
+
+  // Add HR and label before subjects
+  const hr = document.createElement('hr');
+  const label = document.createElement('h6');
+  subjectsNode.appendChild(hr);
+  subjectsNode.appendChild(label);
+
+  // Subjects
   school.subjects.forEach(sub => {
     const li = document.createElement('li');
     li.textContent = sub;
+    li.style.color = "#ffffff"; // white list items
+    li.style.marginBottom = "0.5rem";
     subjectsNode.appendChild(li);
   });
 
-  // Set modal background to page orange and white text, center text, no gradient
+  // Modal styling
   const modalContent = schoolModalEl.querySelector('.modal-content');
   if (modalContent) {
-    modalContent.style.background = '#d45c34'; // page orange
-    modalContent.style.color = '#ffffff';      // white text
+    modalContent.style.background = '#d45c34'; // orange
+    modalContent.style.color = '#ffffff';      // white default
     modalContent.style.textAlign = 'center';   // center text
   }
 
-  // Also adjust modal body list alignment and list color for readability
-  const modalBodyList = subjectsNode;
-  if (modalBodyList) {
-    modalBodyList.style.listStyle = 'none';
-    modalBodyList.style.padding = '0';
-    modalBodyList.style.margin = '0 auto';
-    modalBodyList.querySelectorAll('li').forEach(li => {
-      li.style.marginBottom = '0.5rem';
-      li.style.color = '#ffffff';
-    });
-  }
+  subjectsNode.style.listStyle = 'none';
+  subjectsNode.style.padding = '0';
+  subjectsNode.style.margin = '0 auto';
 });
 
 // Reset modal background/text alignment on hide
@@ -259,12 +266,12 @@ schoolModalEl.addEventListener('hidden.bs.modal', function () {
 
   const subjectsNode = document.getElementById('modalSubjects');
   if (subjectsNode) {
+    subjectsNode.innerHTML = ''; // reset content including hr and label
     subjectsNode.style.listStyle = '';
     subjectsNode.style.padding = '';
     subjectsNode.style.margin = '';
-    subjectsNode.querySelectorAll('li').forEach(li => {
-      li.style.marginBottom = '';
-      li.style.color = '';
-    });
   }
+
+  const modalTitle = document.getElementById('schoolModalLabel');
+  if (modalTitle) modalTitle.style.color = '';
 });
