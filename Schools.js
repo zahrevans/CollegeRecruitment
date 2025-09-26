@@ -164,86 +164,107 @@ const asuSchools = [
     image: ""
   }
 ];
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 
-const schoolColors = {
-      "The College of Liberal Arts and Sciences": "#6C9AEE",
-      "Ira A. Fulton Schools of Engineering": "#EE8130",
-      "W. P. Carey School of Business": "#F7D02C",
-      "Herberger Institute for Design and the Arts": "#A33EA1",
-      "Edson College of Nursing and Health Innovation": "#96D9D6",
-      "College of Health Solutions": "#7AC74C",
-      "Walter Cronkite School of Journalism and Mass Communication": "#F95587",
-      "Thunderbird School of Global Management": "#B6A136",
-      "Mary Lou Fulton Teachers College": "#A6B91A",
-      "Sandra Day O’Connor College of Law": "#735797",
-      "Watts College of Public Service and Community Solutions": "#B7B7CE",
-      "New College of Interdisciplinary Arts and Sciences": "#A8A77A",
-      "University College": "#D685AD",
-      "College of Global Futures": "#6F35FC"
-    };
+// Render function (cards now white background, black text, no rounded corners, slight shadow)
+function render(list) {
+  const grid = document.getElementById("rosterGrid");
+  grid.innerHTML = '';
+  list.forEach((s, index) => {
+    const col = document.createElement('div');
+    col.className = 'col-6 col-md-4 col-lg-3';
 
-    // Render function (matches the structure and class usage in your sample)
-    function render(list) {
-      const grid = document.getElementById("rosterGrid");
-      grid.innerHTML = '';
-      list.forEach((s, index) => {
-        const col = document.createElement('div');
-        col.className = 'col-6 col-md-4 col-lg-3';
-        const cardColor = schoolColors[s.name] || "#777";
-        // ID derived from last word of name (mirrors sample method)
-        let id = s.name.split(" ");
-        id = id[id.length - 1].replace(/[^a-zA-Z0-9\-]/g, '');
-        // Build inner HTML following the same card markup pattern
-        col.innerHTML = `
-  <div class="card shadow rounded-4 border-0 overflow-hidden text-white" style="background: linear-gradient(135deg, ${cardColor} 80%, #fff2 100%);" id="${id}">
-    <div class="leader-image-container p-2 d-flex justify-content-center align-items-center" style="height:120px;">
-      <img src="${s.image ? s.image : ''}" class="mx-auto d-block" alt="${s.name} image" onerror="this.style.display='none'">
-    </div>
-    <div class="card-body text-center pb-3">
-      <h5 class="card-title mb-1 fw-bold">${s.name}</h5>
-      <p class="small mb-2">College / School</p>
-      <button class="btn btn-sm btn-light show-info-btn px-3" data-school-index="${index}" data-bs-toggle="modal" data-bs-target="#schoolModal">
-        Fields of study
-      </button>
-    </div>
-  </div>
-`;
-        grid.appendChild(col);
-      });
-    }
+    // ID derived from last word of name
+    let id = s.name.split(" ");
+    id = id[id.length - 1].replace(/[^a-zA-Z0-9\-]/g, '');
 
-    // Initial render
-    render(asuSchools);
+    // Inline styles for card: white background, black text, no border-radius, subtle shadow
+    const cardStyle = [
+      "background: #ffffff",         // white background
+      "color: #000000",              // black text
+      "border-radius: 0",            // no rounded corners
+      "box-shadow: 0 6px 14px rgba(0,0,0,0.12)", // subtle black drop shadow
+      "overflow: hidden"
+    ].join("; ");
 
-    // Modal logic: populate content when modal is shown (Bootstrap modal event)
-    const schoolModalEl = document.getElementById('schoolModal');
-    schoolModalEl.addEventListener('show.bs.modal', function (event) {
-      const button = event.relatedTarget;
-      const index = button.getAttribute('data-school-index');
-      const school = asuSchools[index];
+    // Image wrapper height kept; image hidden if missing (onerror)
+    col.innerHTML = `
+      <div class="card border-0" id="${id}" style="${cardStyle}">
+        <div class="leader-image-container p-2 d-flex justify-content-center align-items-center" style="height:120px;">
+          <img src="${s.image ? s.image : ''}" class="mx-auto d-block" alt="${s.name} image" onerror="this.style.display='none'">
+        </div>
+        <div class="card-body text-center pb-3" style="padding-top:0.5rem;padding-bottom:1rem;">
+          <h5 class="card-title mb-1 fw-bold" style="color:#000000;">${s.name}</h5>
+          <p class="small mb-2" style="color:#333333;">College / School</p>
+          <button class="btn btn-sm btn-dark show-info-btn px-3" style="background:#000;color:#fff;border:none;" data-school-index="${index}" data-bs-toggle="modal" data-bs-target="#schoolModal">
+            Fields of study
+          </button>
+        </div>
+      </div>
+    `;
+    grid.appendChild(col);
+  });
+}
 
-      // Title
-      document.getElementById('schoolModalLabel').textContent = school.name;
+// Initial render
+render(asuSchools);
 
-      // Subjects list
-      const subjectsNode = document.getElementById('modalSubjects');
-      subjectsNode.innerHTML = '';
-      school.subjects.forEach(sub => {
-        const li = document.createElement('li');
-        li.textContent = sub;
-        subjectsNode.appendChild(li);
-      });
+// Modal logic: populate content when modal is shown (Bootstrap modal event)
+const schoolModalEl = document.getElementById('schoolModal');
+schoolModalEl.addEventListener('show.bs.modal', function (event) {
+  const button = event.relatedTarget;
+  const index = button.getAttribute('data-school-index');
+  const school = asuSchools[index];
 
-      // Set modal background to a gradient using the school's color (mirrors example)
-      const modalContent = schoolModalEl.querySelector('.modal-content');
-      const color = schoolColors[school.name] || "#777";
-      modalContent.style.background = `linear-gradient(to right, ${color} 50%, #ffffff33 50%)`;
+  // Title
+  document.getElementById('schoolModalLabel').textContent = school.name;
+
+  // Subjects list
+  const subjectsNode = document.getElementById('modalSubjects');
+  subjectsNode.innerHTML = '';
+  school.subjects.forEach(sub => {
+    const li = document.createElement('li');
+    li.textContent = sub;
+    subjectsNode.appendChild(li);
+  });
+
+  // Set modal background to page orange and white text, center text, no gradient
+  const modalContent = schoolModalEl.querySelector('.modal-content');
+  if (modalContent) {
+    modalContent.style.background = '#d45c34'; // page orange
+    modalContent.style.color = '#ffffff';      // white text
+    modalContent.style.textAlign = 'center';   // center text
+  }
+
+  // Also adjust modal body list alignment and list color for readability
+  const modalBodyList = subjectsNode;
+  if (modalBodyList) {
+    modalBodyList.style.listStyle = 'none';
+    modalBodyList.style.padding = '0';
+    modalBodyList.style.margin = '0 auto';
+    modalBodyList.querySelectorAll('li').forEach(li => {
+      li.style.marginBottom = '0.5rem';
+      li.style.color = '#ffffff';
     });
+  }
+});
 
-    // Reset modal background on hide (optional, mirrors sample)
-    schoolModalEl.addEventListener('hidden.bs.modal', function () {
-      const modalContent = schoolModalEl.querySelector('.modal-content');
-      if (modalContent) modalContent.style.background = '';
+// Reset modal background/text alignment on hide
+schoolModalEl.addEventListener('hidden.bs.modal', function () {
+  const modalContent = schoolModalEl.querySelector('.modal-content');
+  if (modalContent) {
+    modalContent.style.background = '';
+    modalContent.style.color = '';
+    modalContent.style.textAlign = '';
+  }
+
+  const subjectsNode = document.getElementById('modalSubjects');
+  if (subjectsNode) {
+    subjectsNode.style.listStyle = '';
+    subjectsNode.style.padding = '';
+    subjectsNode.style.margin = '';
+    subjectsNode.querySelectorAll('li').forEach(li => {
+      li.style.marginBottom = '';
+      li.style.color = '';
     });
-  
+  }
+});
