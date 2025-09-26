@@ -165,19 +165,19 @@ const asuSchools = [
   }
 ];
 
-// Render function (cards now white background, black text, no rounded corners, slight shadow)
+
 function render(list) {
   const grid = document.getElementById("rosterGrid");
   grid.innerHTML = '';
   list.forEach((s, index) => {
     const col = document.createElement('div');
-    col.className = 'col-6 col-md-4 col-lg-3 d-flex'; // flex wrapper for equal heights
+    col.className = 'col-6 col-md-4 col-lg-3 d-flex';
 
-    // ID derived from last word of name
+
     let id = s.name.split(" ");
     id = id[id.length - 1].replace(/[^a-zA-Z0-9\-]/g, '');
 
-    // Card styles: consistent size, white background, black text, shadow
+
     const cardStyle = [
       "background: #ffffff",
       "color: #000000",
@@ -208,46 +208,46 @@ function render(list) {
   });
 }
 
-// Initial render
+
 render(asuSchools);
 
-// Modal logic: populate content when modal is shown
+
 const schoolModalEl = document.getElementById('schoolModal');
 schoolModalEl.addEventListener('show.bs.modal', function (event) {
   const button = event.relatedTarget;
   const index = button.getAttribute('data-school-index');
   const school = asuSchools[index];
 
-  // Title
+
   const modalTitle = document.getElementById('schoolModalLabel');
   modalTitle.textContent = school.name;
-  modalTitle.style.color = "#000000"; // black title
+  modalTitle.style.color = "#000000";
 
-  // Subjects list
+
   const subjectsNode = document.getElementById('modalSubjects');
   subjectsNode.innerHTML = '';
 
-  // Add HR and label before subjects
+
   const hr = document.createElement('hr');
   const label = document.createElement('h6');
   subjectsNode.appendChild(hr);
   subjectsNode.appendChild(label);
 
-  // Subjects
+
   school.subjects.forEach(sub => {
     const li = document.createElement('li');
     li.textContent = sub;
-    li.style.color = "#ffffff"; // white list items
+    li.style.color = "#ffffff";
     li.style.marginBottom = "0.5rem";
     subjectsNode.appendChild(li);
   });
 
-  // Modal styling
+
   const modalContent = schoolModalEl.querySelector('.modal-content');
   if (modalContent) {
-    modalContent.style.background = '#d45c34'; // orange
-    modalContent.style.color = '#ffffff';      // white default
-    modalContent.style.textAlign = 'center';   // center text
+    modalContent.style.background = '#d45c34';
+    modalContent.style.color = '#ffffff';      
+    modalContent.style.textAlign = 'center';   
   }
 
   subjectsNode.style.listStyle = 'none';
@@ -255,7 +255,7 @@ schoolModalEl.addEventListener('show.bs.modal', function (event) {
   subjectsNode.style.margin = '0 auto';
 });
 
-// Reset modal background/text alignment on hide
+
 schoolModalEl.addEventListener('hidden.bs.modal', function () {
   const modalContent = schoolModalEl.querySelector('.modal-content');
   if (modalContent) {
@@ -266,7 +266,7 @@ schoolModalEl.addEventListener('hidden.bs.modal', function () {
 
   const subjectsNode = document.getElementById('modalSubjects');
   if (subjectsNode) {
-    subjectsNode.innerHTML = ''; // reset content including hr and label
+    subjectsNode.innerHTML = ''; 
     subjectsNode.style.listStyle = '';
     subjectsNode.style.padding = '';
     subjectsNode.style.margin = '';
